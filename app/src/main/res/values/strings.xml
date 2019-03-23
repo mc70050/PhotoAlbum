@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">PhotoAlbum</string>
+
+    <!-- Text for buttons -->
+    <string name="snap_text">Snap</string>
+    <string name="search_text">Search</string>
+    <string name="new_album">New Album</string>
+    <string name="delete_album">Delete Album</string>
+
+    <string name="timeframe_tag">Time Frame: </string>
+    <string name="timeframe_from_tag">From: </string>
+    <string name="timeframe_to_tag">To: </string>
+    <string name="keyword_tag">Keyword: </string>
+    <string name="location_tag">Location Selector: </string>
+    <string name="top_left_tag">Top Left: </string>
+    <string name="bottom_right_tag">Bottom Right: </string>
+
+    <string name="timeframe_from_hint">Time from</string>
+    <string name="timeframe_until_hint">Time until</string>
+    <string name="keywords_hint">Keywords here</string>
+    <string name="location_top_left_hint">Top Left Location</string>
+    <string name="location_bottom_right_hint">Bottom Right Location</string>
+    <string name="search_button_name">Search</string>
+    <string name="back_button_name">Back</string>
+</resources>

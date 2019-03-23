@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchActivity">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" >
+
+        <TextView
+            android:id="@+id/timeframe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="48dp"
+            android:text="@string/timeframe_tag" />
+
+        <TextView
+            android:id="@+id/timeframe_from_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/timeframe"
+            android:layout_below="@+id/timeframe"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="50dp"
+            android:text="@string/timeframe_from_tag" />
+
+        <EditText
+            android:id="@+id/timeframe_from_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/timeframe_from_tag"
+            android:layout_toEndOf="@+id/timeframe_from_tag"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="-10dp"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:hint="@string/timeframe_from_hint"/>
+
+        <TextView
+            android:id="@+id/timeframe_to_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/timeframe_from_tag"
+            android:layout_below="@+id/timeframe_from_tag"
+            android:layout_marginTop="15dp"
+            android:text="@string/timeframe_to_tag"/>
+
+        <EditText
+            android:id="@+id/timeframe_to_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/timeframe_to_tag"
+            android:layout_alignStart="@+id/timeframe_from_text"
+            android:layout_marginBottom="-10dp"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:hint="@string/timeframe_until_hint"/>
+
+        <TextView
+            android:id="@+id/keyword_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/timeframe"
+            android:layout_below="@+id/timeframe_to_tag"
+            android:layout_marginTop="25dp"
+            android:text="@string/keyword_tag" />
+
+        <EditText
+            android:id="@+id/keyword_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/keyword_tag"
+            android:layout_alignStart="@+id/timeframe_from_text"
+            android:layout_marginBottom="-10dp"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:hint="@string/keywords_hint"/>
+
+        <TextView
+            android:id="@+id/location_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/timeframe"
+            android:layout_below="@+id/keyword_tag"
+            android:layout_marginTop="25dp"
+            android:text="@string/location_tag" />
+
+        <TextView
+            android:id="@+id/location_top_left_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/timeframe"
+            android:layout_below="@+id/location_tag"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="50dp"
+            android:text="@string/top_left_tag" />
+
+        <EditText
+            android:id="@+id/location_from_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_top_left_tag"
+            android:layout_alignStart="@+id/timeframe_from_text"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:hint="@string/location_top_left_hint"/>
+
+        <TextView
+            android:id="@+id/location_bottom_right_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/timeframe"
+            android:layout_below="@+id/location_from_text"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="50dp"
+            android:text="@string/bottom_right_tag" />
+
+        <EditText
+            android:id="@+id/location_to_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_bottom_right_tag"
+            android:layout_alignStart="@+id/timeframe_from_text"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:hint="@string/location_bottom_right_hint"/>
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_to_text"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="25dp"
+            android:onClick="search"
+            android:text="@string/search_button_name" />
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/search_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="25dp"
+            android:onClick="goBack"
+            android:text="@string/back_button_name" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
