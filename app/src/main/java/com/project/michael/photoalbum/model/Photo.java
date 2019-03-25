@@ -81,7 +81,7 @@ public class Photo {
                 Log.d("name1", f.getName());
                 Log.d("name2", getName());
                 String parts[] = f.getName().split("_");
-                if (parts[1].equalsIgnoreCase(getName())) {
+                if (parts[0].equals(getAlbum()) && parts[1].equalsIgnoreCase(getName())) {
                     Log.d("Testing", "here");
                     return f.getPath();
                 }

@@ -96,6 +96,24 @@ public class PhotoDBHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public Photo getPhotoWithNameAndAlbum(String name, String album) {
+        ArrayList<Photo> list = getAllPhotos();
+        for (Photo photo : list) {
+            if ((photo.getAlbum().equals(album)) && (photo.getName().equals(name))) {
+                return photo;
+            }
+        }
+        return null;
+    }
+
+    public boolean changeAlbum(String album, String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_ALBUM, album);
+        db.update(TABLE_NAME, contentValues, "name = ? ", new String[] { name });
+        return true;
+    }
+
     public Integer deletePhotosInAlbum(String album) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME,

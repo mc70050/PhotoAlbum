@@ -1,5 +1,6 @@
 package com.project.michael.photoalbum.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.project.michael.photoalbum.R;
+import com.project.michael.photoalbum.database.DBHelper;
 import com.project.michael.photoalbum.model.Photo;
 
 import java.util.List;
@@ -18,28 +25,29 @@ import java.util.List;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
 
     private List<Photo> photoList;
+    private onItemClickListener listener;
     Context context;
 
-    public PhotoAdapter(List<Photo> photoList, Context context) {
+    public interface onItemClickListener {
+        void onItemClick(Photo photo);
+    }
+
+    public PhotoAdapter(List<Photo> photoList, Context context, onItemClickListener listener) {
         this.photoList = photoList;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
     public PhotoViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View photoView = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_grid, parent, false);
-        PhotoViewHolder holder = new PhotoViewHolder(photoView, new PhotoAdapter.PhotoViewHolder.myViewHolderClicks() {
-            public void onPhoto(View v) {
-                // Change later
-            }
-        });
-        return holder;
+        return new PhotoViewHolder(photoView);
     }
 
     @Override
     public void onBindViewHolder(PhotoViewHolder holder, final int position) {
         //Log.d("path", photoList.get(position).getPath());
-        holder.thumbnail.setImageBitmap(BitmapFactory.decodeFile(photoList.get(position).getPath()));
+        holder.bind(photoList.get(position), listener);
     }
 
     @Override
@@ -54,26 +62,22 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
 
 
-    public static class PhotoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class PhotoViewHolder extends RecyclerView.ViewHolder {
 
         ImageView thumbnail;
-        public myViewHolderClicks mListener;
 
-        public PhotoViewHolder(View view, myViewHolderClicks listener) {
+        public PhotoViewHolder(View view) {
             super(view);
-            mListener = listener;
             thumbnail = view.findViewById(R.id.thumbnail);
-            thumbnail.setOnClickListener(this);
-            view.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-            mListener.onPhoto(v);
-        }
-
-        public interface myViewHolderClicks {
-            void onPhoto(View v);
+        public void bind(final Photo photo, final onItemClickListener listener) {
+            thumbnail.setImageBitmap(BitmapFactory.decodeFile(photo.getPath()));
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(photo);
+                }
+            });
         }
     }
 }
