@@ -1,6 +1,8 @@
 package com.project.michael.photoalbum;
 
 import com.facebook.FacebookSdk;
+
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareButton;
+import com.facebook.share.widget.ShareDialog;
 import com.project.michael.photoalbum.database.DBHelper;
 import com.project.michael.photoalbum.database.PhotoDBHelper;
 import com.project.michael.photoalbum.model.Photo;
@@ -29,8 +35,11 @@ public class PhotoDetailActivity extends AppCompatActivity {
     private Spinner spinner;
     private Button change;
     private Button back;
+    private Button share;
+    private Button backup;
     private DBHelper db;
     private PhotoDBHelper photoDB;
+    private ShareDialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +53,25 @@ public class PhotoDetailActivity extends AppCompatActivity {
         spinner = findViewById(R.id.album_spinner);
         change = findViewById(R.id.change_album);
         back = findViewById(R.id.photo_back_button);
+        share = findViewById(R.id.photo_share);
+        backup = findViewById(R.id.photo_backup);
         db = new DBHelper(this);
         photoDB = new PhotoDBHelper(this);
+        shareDialog = new ShareDialog(this);
 
         final String albumName = getIntent().getExtras().getString("album");
         final String name = getIntent().getExtras().getString("name");
         final Photo photo = photoDB.getPhotoWithNameAndAlbum(name, albumName);
 
-        
+        ShareButton shareButton = (ShareButton)findViewById(R.id.photo_share);
+        Bitmap image = BitmapFactory.decodeFile(photo.getPath());
+        SharePhoto sharedPhoto = new SharePhoto.Builder()
+                .setBitmap(image)
+                .build();
+        SharePhotoContent content = new SharePhotoContent.Builder()
+                .addPhoto(sharedPhoto)
+                .build();
+        shareButton.setShareContent(content);
 
         thumbnail.setImageBitmap(BitmapFactory.decodeFile(photo.getPath()));
         latitude.append(photo.getLatitude() + "");
@@ -95,5 +115,19 @@ public class PhotoDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+//        share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bitmap image = BitmapFactory.decodeFile(photo.getPath());
+//                SharePhoto sharedPhoto = new SharePhoto.Builder()
+//                        .setBitmap(image)
+//                        .build();
+//                SharePhotoContent content = new SharePhotoContent.Builder()
+//                        .addPhoto(sharedPhoto)
+//                        .build();
+//                shareDialog.show(content);
+//            }
+//        });
     }
 }

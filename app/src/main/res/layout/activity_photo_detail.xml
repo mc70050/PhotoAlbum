@@ -81,13 +81,38 @@
             android:layout_gravity="end"
             android:text="Change Album"/>
 
-        <Button
-            android:id="@+id/photo_back_button"
-            android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Back"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:paddingTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/photo_back_button"
+                android:paddingTop="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Back"/>
+
+            <com.facebook.share.widget.ShareButton
+                android:id="@+id/photo_share"
+                android:paddingTop="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Share"/>
+
+            <Button
+                android:id="@+id/photo_backup"
+                android:paddingTop="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Backup"/>
+
+        </LinearLayout>
+
 
 
     </LinearLayout>
