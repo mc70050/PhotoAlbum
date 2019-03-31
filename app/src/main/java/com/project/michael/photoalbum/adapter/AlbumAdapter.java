@@ -8,11 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.project.michael.photoalbum.MainActivity;
 import com.project.michael.photoalbum.PhotoActivity;
 import com.project.michael.photoalbum.R;
 import com.project.michael.photoalbum.model.Album;
@@ -22,7 +19,7 @@ import java.util.List;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
 
     private List<Album> albumList;
-    Context context;
+    private Context context;
 
     public AlbumAdapter(List<Album> albumList, Context context) {
         this.albumList = albumList;
@@ -64,9 +61,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
     public static class AlbumViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textview;
-        public myViewHolderClicks mListener;
+        myViewHolderClicks mListener;
 
-        public AlbumViewHolder(View view, myViewHolderClicks listener) {
+        AlbumViewHolder(View view, myViewHolderClicks listener) {
             super(view);
             mListener = listener;
             textview = view.findViewById(R.id.album_name);

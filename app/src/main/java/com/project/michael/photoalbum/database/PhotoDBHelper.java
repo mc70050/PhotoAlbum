@@ -8,20 +8,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.project.michael.photoalbum.model.Photo;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PhotoDBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "Photo";
-    public static final String TABLE_NAME = "photos";
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_TIME = "time";
-    public static final String COLUMN_LATITUDE = "latitude";
-    public static final String COLUMN_LONGITUDE = "longitude";
-    public static final String COLUMN_CAPTION = "caption";
-    public static final String COLUMN_ALBUM = "album";
+    private static final String DATABASE_NAME = "Photo";
+    private static final String TABLE_NAME = "photos";
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_TIME = "time";
+    private static final String COLUMN_LATITUDE = "latitude";
+    private static final String COLUMN_LONGITUDE = "longitude";
+    private static final String COLUMN_CAPTION = "caption";
+    private static final String COLUMN_ALBUM = "album";
 
     public PhotoDBHelper(Context context) {
         super(context, DATABASE_NAME , null, 1);
@@ -68,7 +67,7 @@ public class PhotoDBHelper extends SQLiteOpenHelper {
         Cursor res =  db.rawQuery( "select * from " + TABLE_NAME, null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             list.add(new Photo(res.getString(res.getColumnIndex(COLUMN_ALBUM)),
                     res.getDouble(res.getColumnIndex(COLUMN_LATITUDE)),
                     res.getDouble(res.getColumnIndex(COLUMN_LONGITUDE)),
@@ -85,7 +84,7 @@ public class PhotoDBHelper extends SQLiteOpenHelper {
         Cursor res =  db.rawQuery( "select * from " + TABLE_NAME + " where album=" + "'" + name + "'" + "", null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             list.add(new Photo(res.getString(res.getColumnIndex(COLUMN_ALBUM)),
                     res.getDouble(res.getColumnIndex(COLUMN_LATITUDE)),
                     res.getDouble(res.getColumnIndex(COLUMN_LONGITUDE)),

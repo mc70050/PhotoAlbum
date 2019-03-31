@@ -1,7 +1,5 @@
 package com.project.michael.photoalbum;
 
-import com.facebook.FacebookSdk;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -28,36 +26,26 @@ import java.io.IOException;
 
 public class PhotoDetailActivity extends AppCompatActivity {
 
-    private ImageView thumbnail;
-    private TextView latitude;
-    private TextView longitude;
-    private TextView caption;
     private Spinner spinner;
-    private Button change;
-    private Button back;
-    private Button share;
-    private Button backup;
-    private DBHelper db;
     private PhotoDBHelper photoDB;
-    private ShareDialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_detail);
 
-        thumbnail = findViewById(R.id.photo_thumb);
-        latitude = findViewById(R.id.photo_latitude);
-        longitude = findViewById(R.id.photo_longitude);
-        caption = findViewById(R.id.photo_caption);
+        ImageView thumbnail = findViewById(R.id.photo_thumb);
+        TextView latitude = findViewById(R.id.photo_latitude);
+        TextView longitude = findViewById(R.id.photo_longitude);
+        TextView caption = findViewById(R.id.photo_caption);
         spinner = findViewById(R.id.album_spinner);
-        change = findViewById(R.id.change_album);
-        back = findViewById(R.id.photo_back_button);
-        share = findViewById(R.id.photo_share);
-        backup = findViewById(R.id.photo_backup);
-        db = new DBHelper(this);
+        Button change = findViewById(R.id.change_album);
+        Button back = findViewById(R.id.photo_back_button);
+        Button share = findViewById(R.id.photo_share);
+        Button backup = findViewById(R.id.photo_backup);
+        DBHelper db = new DBHelper(this);
         photoDB = new PhotoDBHelper(this);
-        shareDialog = new ShareDialog(this);
+        ShareDialog shareDialog = new ShareDialog(this);
 
         final String albumName = getIntent().getExtras().getString("album");
         final String name = getIntent().getExtras().getString("name");

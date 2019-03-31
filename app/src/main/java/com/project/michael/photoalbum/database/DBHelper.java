@@ -16,10 +16,10 @@ import java.util.ArrayList;
  * This Table stores all the albums.
  */
 public class DBHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "AlbumList";
-    public static final String TABLE_NAME = "albums";
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_NAME = "name";
+    private static final String DATABASE_NAME = "AlbumList";
+    private static final String TABLE_NAME = "albums";
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_NAME = "name";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME , null, 1);
@@ -77,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res =  db.rawQuery( "select * from " + TABLE_NAME, null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             array_list.add(new Album(res.getString(res.getColumnIndex(COLUMN_NAME))));
             res.moveToNext();
         }
@@ -91,7 +91,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res =  db.rawQuery( "select * from " + TABLE_NAME, null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             array_list.add(res.getString(res.getColumnIndex(COLUMN_NAME)));
             res.moveToNext();
         }
@@ -100,11 +100,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean findAlbum(String name) {
         ArrayList<String> names = getAllAlbumNames();
-        if (names.contains(name)) {
-            return true;
-        } else {
-            return false;
-        }
+        return names.contains(name);
     }
 
     public Integer deleteAlbum (Integer id) {

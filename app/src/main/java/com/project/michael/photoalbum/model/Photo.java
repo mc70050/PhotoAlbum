@@ -4,12 +4,8 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class Photo {
-
-    private final String SEPARATOR = "_";
 
     private String album;
     private String name;
@@ -61,11 +57,12 @@ public class Photo {
 
     public void setDate(String date) { this.date = date; }
 
-    public String getDate() { return date; }
+    private String getDate() { return date; }
 
     public void setCaption(String caption) { this.caption = caption; }
 
-    public void setName(String album, double latitude, double longitude, String date, String caption) {
+    private void setName(String album, double latitude, double longitude, String date, String caption) {
+        String SEPARATOR = "_";
         String temp = album + SEPARATOR + latitude + SEPARATOR + longitude + SEPARATOR + date + SEPARATOR + caption;
         name = temp.hashCode() + "";
     }
@@ -88,5 +85,16 @@ public class Photo {
             }
         }
         return null;
+    }
+
+    public boolean matchCondition(String startDate, String endDate, double[] startLoc, double[] endLoc) {
+        if ((startDate.length() != 0) || (endDate.length() != 0)) {
+            return (Integer.parseInt(getDate()) >= Integer.parseInt(startDate)) && (Integer.parseInt(getDate()) <= Integer.parseInt(endDate));
+        }
+        if ((startLoc[0] != 0 && startLoc[1] != 0) && (endLoc[0] != 0 && endLoc[1] != 0)) {
+            return (getLatitude() <= startLoc[0]) && (getLatitude() >= endLoc[0])
+                    && (getLongitude() >= startLoc[1]) && (getLongitude() <= endLoc[1]);
+        }
+        return false;
     }
 }

@@ -49,13 +49,10 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_TAKE_PHOTO = 1;
     private static final int REQUEST_LOCATION_PERMISSION = 3;
 
-    private List<Album> albumList = new ArrayList<>();
-    private RecyclerView albumRecyclerView;
     private AlbumAdapter albumAdapter;
     private DBHelper albumDB;
     private PhotoDBHelper photoDB;
     private FusedLocationProviderClient mFusedLocationClient;
-    private Photo photo;
 
     private double latitude = 0;
     private double longitude = 0;
@@ -77,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getLocation();
         // Initiate and set Recycler View
-        albumRecyclerView = findViewById(R.id.albumList);
+        RecyclerView albumRecyclerView = findViewById(R.id.albumList);
         albumRecyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this, LinearLayoutManager.VERTICAL));
 
         // Initiate adapter for list
-        albumList = albumDB.getAllAlbums();
+        List<Album> albumList = albumDB.getAllAlbums();
         albumAdapter = new AlbumAdapter(albumList, getApplicationContext());
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
         albumRecyclerView.setLayoutManager(verticalLayoutManager);
@@ -113,6 +110,18 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             Log.d("TakePicture", "Success");
         }
+        if (requestCode == REQUEST_SEARCH && resultCode == RESULT_OK) {
+            Log.d("Search", "Success");
+            Bundle bun = new Bundle();
+            bun.putString("Album", null);
+            bun.putString("STARTDATE", data.getStringExtra("STARTDATE"));
+            bun.putString("ENDDATE", data.getStringExtra("ENDDATE"));
+            bun.putDoubleArray("STARTLOC", data.getDoubleArrayExtra("STARTLOC"));
+            bun.putDoubleArray("ENDLOC", data.getDoubleArrayExtra("ENDLOC"));
+            Intent intent = new Intent(this, PhotoActivity.class);
+            intent.putExtras(bun);
+            startActivity(intent);
+        }
     }
 
     private void getLocation() {
@@ -142,13 +151,13 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(new Intent(MainActivity.this, SearchActivity.class), REQUEST_SEARCH);
     }
 
-    public void takePicture(View v, String album) {
+    private void takePicture(View v, String album) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
             try {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
-                photo = new Photo(album, latitude, longitude, timeStamp, "");
+                Photo photo = new Photo(album, latitude, longitude, timeStamp, "");
                 photoDB.addPhoto(photo.getName(), timeStamp, latitude, longitude, "", album);
                 String imageFileName = photo.getAlbum() + "_" + photo.getName() + "_";
                 photoFile = File.createTempFile(

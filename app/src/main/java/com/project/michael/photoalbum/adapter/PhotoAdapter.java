@@ -1,23 +1,14 @@
 package com.project.michael.photoalbum.adapter;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.project.michael.photoalbum.R;
-import com.project.michael.photoalbum.database.DBHelper;
 import com.project.michael.photoalbum.model.Photo;
 
 import java.util.List;
@@ -26,7 +17,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     private List<Photo> photoList;
     private onItemClickListener listener;
-    Context context;
+    private Context context;
 
     public interface onItemClickListener {
         void onItemClick(Photo photo);
@@ -66,12 +57,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
         ImageView thumbnail;
 
-        public PhotoViewHolder(View view) {
+        PhotoViewHolder(View view) {
             super(view);
             thumbnail = view.findViewById(R.id.thumbnail);
         }
 
-        public void bind(final Photo photo, final onItemClickListener listener) {
+        void bind(final Photo photo, final onItemClickListener listener) {
             thumbnail.setImageBitmap(BitmapFactory.decodeFile(photo.getPath()));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {

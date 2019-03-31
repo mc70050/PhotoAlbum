@@ -1,36 +1,22 @@
 package com.project.michael.photoalbum;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.project.michael.photoalbum.adapter.PhotoAdapter;
-import com.project.michael.photoalbum.database.DBHelper;
 import com.project.michael.photoalbum.database.PhotoDBHelper;
 import com.project.michael.photoalbum.model.Photo;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class PhotoActivity extends AppCompatActivity {
 
     private PhotoDBHelper photoDB;
-    private RecyclerView photoRecyclerView;
     private PhotoAdapter adapter;
     private ArrayList<Photo> photoList;
 
@@ -43,12 +29,16 @@ public class PhotoActivity extends AppCompatActivity {
 
         photoDB = new PhotoDBHelper(this);
 
-        photoRecyclerView = findViewById(R.id.photo_grids);
+        RecyclerView photoRecyclerView = findViewById(R.id.photo_grids);
 
 
         String album = getIntent().getExtras().getString("Album");
-        photoList = photoDB.getAllPhotosFromAlbum(album);
-        //Log.d("Album size", photoList.get(2).getLatitude() + "");
+        if (album == null) {
+            Log.d("Album name", "null");
+            getSearchResults(getIntent());
+        } else {
+            photoList = photoDB.getAllPhotosFromAlbum(album);
+        }
         adapter = new PhotoAdapter(photoList, getApplicationContext(), new PhotoAdapter.onItemClickListener() {
             @Override
             public void onItemClick(final Photo photo) {
@@ -62,6 +52,22 @@ public class PhotoActivity extends AppCompatActivity {
         });
         photoRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         photoRecyclerView.setAdapter(adapter);
+    }
+
+    private void getSearchResults(Intent data) {
+        photoList = photoDB.getAllPhotos();
+        Iterator<Photo> iterator = photoList.iterator();
+        String startDate = data.getStringExtra("STARTDATE");
+        String endDate = data.getStringExtra("ENDDATE");
+        double[] startloc = data.getDoubleArrayExtra("STARTLOC");
+        double[] endloc = data.getDoubleArrayExtra("ENDLOC");
+
+        while (iterator.hasNext()) {
+            Photo photo = iterator.next();
+            if (!photo.matchCondition(startDate, endDate, startloc, endloc)) {
+                iterator.remove();
+            }
+        }
     }
 
     @Override
